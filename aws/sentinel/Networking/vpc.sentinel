@@ -1,0 +1,9 @@
+import "tfplan-functions" as plan
+
+allvpcinstances = plan.find_resources("aws_vpc")
+violatingvpcInstances = plan.filter_attribute_is_not_value(allvpcinstances,"instance_tenancy", "default", true)
+
+main = rule {
+  length(violatingvpcInstances["messages"]) is 0
+}
+
